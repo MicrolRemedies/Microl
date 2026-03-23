@@ -3,233 +3,1275 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Microl Remedies</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
+<title>Microl Remedies — Aquaculture Excellence Since 1989</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+/* ─── RESET & BASE ─────────────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
-body{
-  background:#0a0f1c;
-  color:#fff;
+:root {
+  --navy:    #060d1f;
+  --deep:    #0a1428;
+  --mid:     #0f1e3a;
+  --teal:    #00c9a7;
+  --teal2:   #00a8e8;
+  --gold:    #f0c040;
+  --white:   #f0f4ff;
+  --muted:   rgba(240,244,255,0.55);
+  --card-bg: rgba(255,255,255,0.04);
+  --border:  rgba(0,201,167,0.18);
 }
 
-/* NAVBAR */
-header{
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--navy);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+h1,h2,h3 { font-family: 'Playfair Display', serif; }
+
+img { display:block; max-width:100%; }
+
+/* ─── CANVAS BACKGROUND ────────────────────────────── */
+#bg-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ─── NOISE GRAIN OVERLAY ───────────────────────────── */
+body::after {
+  content:'';
   position:fixed;
-  width:100%;
-  padding:15px 40px;
-  backdrop-filter:blur(10px);
-  background:rgba(255,255,255,0.05);
-  z-index:1000;
+  inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px;
+  pointer-events:none;
+  z-index:1;
+  opacity:0.4;
 }
 
-.nav{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+/* ─── NAVBAR ────────────────────────────────────────── */
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 900;
+  padding: 20px 6%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.4s, backdrop-filter 0.4s;
+}
+header.scrolled {
+  background: rgba(6,13,31,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
 }
 
-.nav a{
-  color:#fff;
-  margin-left:25px;
-  text-decoration:none;
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--white);
+  text-decoration: none;
+  letter-spacing: 0.02em;
 }
+.logo span { color: var(--teal); }
 
-.logo{
-  font-weight:600;
-  color:#2eaded;
+nav { display:flex; align-items:center; gap: 36px; }
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.3s;
+  position: relative;
 }
-
-/* HERO */
-.hero{
-  height:100vh;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:100px 10%;
-}
-
-.hero-text{
-  max-width:500px;
-}
-
-.hero h1{
-  font-size:45px;
-}
-
-.hero p{
-  margin:15px 0;
-}
-
-.btn{
-  display:inline-block;
-  padding:12px 25px;
-  background:#2eaded;
-  color:#000;
-  border-radius:30px;
-  text-decoration:none;
-}
-
-/* SLIDER */
-.slider{
-  width:400px;
-  height:300px;
-  position:relative;
-}
-
-.slide{
+nav a::after {
+  content:'';
   position:absolute;
-  width:100%;
-  opacity:0;
-  transition:1s;
+  left:0; bottom:-4px;
+  width:0; height:1.5px;
+  background: var(--teal);
+  transition: width 0.3s;
+}
+nav a:hover { color: var(--white); }
+nav a:hover::after { width:100%; }
+
+.nav-cta {
+  padding: 9px 22px;
+  background: transparent;
+  border: 1.5px solid var(--teal);
+  border-radius: 30px;
+  color: var(--teal) !important;
+  transition: background 0.3s, color 0.3s !important;
+}
+.nav-cta::after { display:none !important; }
+.nav-cta:hover {
+  background: var(--teal) !important;
+  color: var(--navy) !important;
 }
 
-.slide.active{
-  opacity:1;
+/* ─── HAMBURGER ─────────────────────────────────────── */
+.burger { display:none; flex-direction:column; gap:5px; cursor:pointer; }
+.burger span { width:24px; height:2px; background:var(--white); border-radius:2px; transition:0.3s; }
+
+/* ─── HERO ──────────────────────────────────────────── */
+.hero {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 120px 6% 80px;
+  gap: 60px;
 }
 
-/* SECTIONS */
-.section{
-  padding:80px 10%;
+.hero-left { flex: 1; max-width: 560px; }
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 28px;
+  font-weight: 500;
+}
+.hero-tag::before {
+  content:'';
+  width: 30px; height: 1.5px;
+  background: var(--teal);
 }
 
-.grid{
-  display:flex;
-  gap:20px;
-  flex-wrap:wrap;
+.hero h1 {
+  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  line-height: 1.18;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--teal);
+  display: block;
 }
 
-.card{
-  flex:1;
-  min-width:250px;
-  background:rgba(255,255,255,0.05);
-  padding:20px;
-  border-radius:10px;
-  transition:0.3s;
+.hero-desc {
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.75;
+  max-width: 420px;
+  margin-bottom: 42px;
 }
 
-.card:hover{
-  transform:translateY(-8px);
+.hero-actions { display:flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+
+.btn-primary {
+  padding: 14px 32px;
+  background: linear-gradient(135deg, var(--teal), var(--teal2));
+  color: var(--navy);
+  border-radius: 40px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.92rem;
+  letter-spacing: 0.04em;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 0 30px rgba(0,201,167,0.3);
+}
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 40px rgba(0,201,167,0.45);
 }
 
-/* FOOTER */
-footer{
-  text-align:center;
-  padding:20px;
-  background:#000;
+.btn-ghost {
+  padding: 14px 32px;
+  border: 1px solid rgba(240,244,255,0.2);
+  color: var(--white);
+  border-radius: 40px;
+  text-decoration: none;
+  font-size: 0.92rem;
+  transition: border-color 0.3s, background 0.3s;
+}
+.btn-ghost:hover {
+  border-color: var(--teal);
+  background: rgba(0,201,167,0.06);
 }
 
-/* WHATSAPP */
-.whatsapp{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  background:#25D366;
-  padding:15px;
+/* Hero stats */
+.hero-stats {
+  display: flex;
+  gap: 36px;
+  margin-top: 56px;
+  padding-top: 40px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+.stat-item .num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--white);
+}
+.stat-item .num span { color: var(--teal); }
+.stat-item .label {
+  font-size: 0.78rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* Hero right — product showcase */
+.hero-right {
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.showcase-ring {
+  position: relative;
+  width: 420px;
+  height: 420px;
+}
+.ring-outer {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  animation: spin-slow 20s linear infinite;
+}
+.ring-inner {
+  position: absolute;
+  inset: 40px;
+  border-radius: 50%;
+  border: 1px dashed rgba(0,168,232,0.2);
+  animation: spin-slow 14s linear infinite reverse;
+}
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+
+.ring-dot {
+  position: absolute;
+  width: 10px; height: 10px;
+  background: var(--teal);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--teal);
+}
+
+/* product slider inside ring */
+.showcase-center {
+  position: absolute;
+  inset: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--mid);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slide-img {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.8s, transform 0.8s;
+  text-align: center;
+}
+.slide-img.active { opacity:1; transform: scale(1); }
+
+.slide-icon {
+  font-size: 3rem;
+  margin-bottom: 14px;
+  filter: drop-shadow(0 0 12px rgba(0,201,167,0.6));
+}
+.slide-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 6px;
+}
+.slide-tagline {
+  font-size: 0.78rem;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+/* floating badges */
+.badge {
+  position: absolute;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  padding: 12px 20px;
+  font-size: 0.78rem;
+  color: var(--white);
+  white-space: nowrap;
+  animation: float 4s ease-in-out infinite;
+}
+.badge b { color: var(--teal); font-weight: 500; }
+.badge-1 { top: 10%; left: -20px; animation-delay: 0s; }
+.badge-2 { bottom: 15%; left: -30px; animation-delay: 1.5s; }
+.badge-3 { top: 20%; right: -20px; animation-delay: 0.8s; }
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* ─── SECTION COMMONS ───────────────────────────────── */
+section { position:relative; z-index:2; }
+.section { padding: 100px 6%; }
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 16px;
+  font-weight: 500;
+}
+.section-tag::before { content:''; width:24px; height:1.5px; background:var(--teal); }
+.section h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  line-height: 1.25;
+  margin-bottom: 16px;
+}
+.section .sub {
+  font-size: 0.97rem;
+  color: var(--muted);
+  max-width: 540px;
+  line-height: 1.75;
+  margin-bottom: 56px;
+}
+
+/* ─── DIVIDER ───────────────────────────────────────── */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  position: relative;
+  z-index: 2;
+  margin: 0 6%;
+  width: 88%;
+}
+
+/* ─── ABOUT ─────────────────────────────────────────── */
+#about {
+  display: flex;
+  align-items: center;
+  gap: 80px;
+}
+.about-left { flex: 1; }
+.about-right {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.about-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 24px;
+  transition: transform 0.3s, border-color 0.3s, background 0.3s;
+}
+.about-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(0,201,167,0.4);
+  background: rgba(0,201,167,0.05);
+}
+.about-card:first-child { grid-column: 1 / -1; }
+.about-card .ac-icon {
+  font-size: 1.8rem;
+  margin-bottom: 14px;
+  filter: drop-shadow(0 0 8px rgba(0,201,167,0.5));
+}
+.about-card h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+}
+.about-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
+
+/* ─── PRODUCTS ──────────────────────────────────────── */
+#products { background: var(--deep); }
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.product-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 36px 28px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.35s, border-color 0.35s;
+  cursor: default;
+}
+.product-card::before {
+  content:'';
+  position:absolute;
+  top:-60px; right:-60px;
+  width:180px; height:180px;
+  background: radial-gradient(circle, rgba(0,201,167,0.12) 0%, transparent 70%);
   border-radius:50%;
-  color:white;
-  text-decoration:none;
+  transition: transform 0.4s;
+}
+.product-card:hover { transform: translateY(-8px); border-color: rgba(0,201,167,0.45); }
+.product-card:hover::before { transform: scale(1.3); }
+
+.pc-tag {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+.pc-icon { font-size: 2.4rem; margin-bottom: 20px; filter: drop-shadow(0 0 10px rgba(0,201,167,0.5)); }
+.product-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+}
+.product-card p {
+  font-size: 0.87rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+.pc-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.pc-features li {
+  font-size: 0.82rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pc-features li::before {
+  content:'✓';
+  color: var(--teal);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* ─── WHY US ─────────────────────────────────────────── */
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+.why-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 24px;
+  text-align: center;
+  transition: transform 0.3s, border-color 0.3s;
+}
+.why-card:hover { transform: translateY(-6px); border-color: rgba(0,201,167,0.45); }
+.why-icon { font-size: 2.2rem; margin-bottom: 16px; filter: drop-shadow(0 0 8px rgba(0,168,232,0.6)); }
+.why-card h4 { font-size: 1rem; margin-bottom: 10px; }
+.why-card p { font-size: 0.83rem; color: var(--muted); line-height: 1.65; }
+
+/* ─── TICKER / MARQUEE ──────────────────────────────── */
+.ticker-wrap {
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 18px 0;
+  background: var(--deep);
+  position: relative;
+  z-index: 2;
+}
+.ticker-inner {
+  display: flex;
+  gap: 64px;
+  animation: ticker 22s linear infinite;
+  white-space: nowrap;
+}
+.ticker-inner span {
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.ticker-inner span::after {
+  content:'◆';
+  color: var(--teal);
+  font-size: 0.5rem;
+}
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ─── CERTIFICATIONS BAR ────────────────────────────── */
+.cert-bar {
+  position: relative;
+  z-index: 2;
+  padding: 48px 6%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border);
+}
+.cert-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.cert-badge {
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: var(--card-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  filter: drop-shadow(0 0 8px rgba(0,201,167,0.3));
+  transition: transform 0.3s;
+}
+.cert-item:hover .cert-badge { transform: scale(1.1); }
+.cert-item span { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+/* ─── CONTACT ────────────────────────────────────────── */
+#contact { background: var(--deep); }
+
+.contact-wrap {
+  display: flex;
+  gap: 60px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.contact-info { flex: 1; min-width: 280px; }
+.contact-info h3 { font-size: 1.5rem; margin-bottom: 24px; }
+.contact-detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.cd-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+.cd-text { display:flex; flex-direction:column; gap:2px; }
+.cd-text span { font-size: 0.72rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+.cd-text a, .cd-text p {
+  font-size: 0.9rem;
+  color: var(--white);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.cd-text a:hover { color: var(--teal); }
+
+/* contact form */
+.contact-form { flex: 1; min-width: 280px; }
+.form-group {
+  margin-bottom: 18px;
+}
+.form-group label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.form-group input, .form-group textarea, .form-group select {
+  width: 100%;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.form-group select option { background: var(--deep); }
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+  border-color: rgba(0,201,167,0.55);
+}
+.form-group textarea { resize: vertical; min-height: 120px; }
+.form-row { display: flex; gap: 16px; }
+.form-row .form-group { flex: 1; }
+
+.btn-submit {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--teal), var(--teal2));
+  color: var(--navy);
+  border: none;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.3s, transform 0.3s;
+  letter-spacing: 0.04em;
+}
+.btn-submit:hover { opacity: 0.88; transform: translateY(-2px); }
+
+/* ─── FOOTER ─────────────────────────────────────────── */
+footer {
+  position: relative;
+  z-index: 2;
+  background: #030710;
+  padding: 56px 6% 28px;
+  border-top: 1px solid var(--border);
+}
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin-bottom: 48px;
+}
+.footer-brand .logo { font-size: 1.5rem; margin-bottom: 14px; display: block; }
+.footer-brand p { font-size: 0.85rem; color: var(--muted); max-width: 260px; line-height: 1.65; }
+.footer-col h5 {
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.footer-col a {
+  display: block;
+  color: rgba(240,244,255,0.65);
+  text-decoration: none;
+  font-size: 0.87rem;
+  margin-bottom: 10px;
+  transition: color 0.3s;
+}
+.footer-col a:hover { color: var(--teal); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.05);
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer-bottom p { font-size: 0.78rem; color: rgba(240,244,255,0.3); }
+.footer-socials { display:flex; gap:12px; }
+.fsoc {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: border-color 0.3s, background 0.3s;
+}
+.fsoc:hover { border-color: var(--teal); background: rgba(0,201,167,0.1); }
+
+/* ─── WHATSAPP BUTTON ────────────────────────────────── */
+.wa-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 999;
+  width: 54px; height: 54px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  text-decoration: none;
+  box-shadow: 0 4px 24px rgba(37,211,102,0.45);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.wa-btn:hover {
+  transform: scale(1.12);
+  box-shadow: 0 8px 32px rgba(37,211,102,0.6);
+}
+.wa-pulse {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid #25D366;
+  animation: wa-ring 2s ease-out infinite;
+}
+@keyframes wa-ring {
+  0% { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* ─── SCROLL REVEAL ──────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ─── RESPONSIVE ─────────────────────────────────────── */
+@media (max-width: 880px) {
+  .hero { flex-direction: column; padding-top: 110px; text-align: center; }
+  .hero-left { max-width: 100%; }
+  .hero-desc { max-width: 100%; }
+  .hero-actions { justify-content: center; }
+  .hero-stats { justify-content: center; }
+  .hero-right { display: none; }
+  #about { flex-direction: column; }
+  .contact-wrap { flex-direction: column; }
+  .burger { display: flex; }
+  nav { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--navy); flex-direction: column; justify-content: center; align-items: center; gap: 40px; z-index: 950; }
+  nav.open { display: flex; }
+  nav a { font-size: 1.3rem; }
 }
 </style>
 </head>
-
 <body>
 
-<header>
-  <div class="nav">
-    <div class="logo">Microl Remedies</div>
-    <div>
-      <a href="#">Home</a>
-      <a href="#about">About</a>
-      <a href="#products">Products</a>
-      <a href="#contact">Contact</a>
-    </div>
+<!-- Animated canvas -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- ─── NAVBAR ─────────────────────────────────────── -->
+<header id="header">
+  <a href="#" class="logo">Microl<span>.</span></a>
+  <nav id="nav">
+    <a href="#about">About</a>
+    <a href="#products">Products</a>
+    <a href="#why">Why Us</a>
+    <a href="#contact" class="nav-cta">Contact</a>
+  </nav>
+  <div class="burger" id="burger" onclick="toggleNav()">
+    <span></span><span></span><span></span>
   </div>
 </header>
 
-<!-- HERO -->
+<!-- ─── HERO ───────────────────────────────────────── -->
 <section class="hero">
-  <div class="hero-text">
-    <h1>Reliable Name in Aquaculture</h1>
-    <p>30+ Years of Proven Excellence</p>
-    <a href="#products" class="btn">Explore Products</a>
+  <div class="hero-left">
+    <div class="hero-tag">Aquaculture Healthcare</div>
+    <h1>The Reliable Name in <em>Aquaculture</em></h1>
+    <p class="hero-desc">For over 30 years, Microl Remedies has pioneered innovative probiotic and healthcare solutions that sustain healthy ponds, healthier harvests, and a better planet.</p>
+    <div class="hero-actions">
+      <a href="#products" class="btn-primary">Explore Products</a>
+      <a href="#contact" class="btn-ghost">Get in Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="num">30<span>+</span></div>
+        <div class="label">Years of Trust</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">50<span>+</span></div>
+        <div class="label">Products</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">10K<span>+</span></div>
+        <div class="label">Farmers Served</div>
+      </div>
+    </div>
   </div>
 
-  <div class="slider">
-    <img src="https://via.placeholder.com/400x300?text=Product+1" class="slide active">
-    <img src="https://via.placeholder.com/400x300?text=Product+2" class="slide">
-    <img src="https://via.placeholder.com/400x300?text=Product+3" class="slide">
+  <div class="hero-right">
+    <div class="showcase-ring">
+      <div class="ring-outer">
+        <div class="ring-dot" style="top:-5px;left:50%;transform:translateX(-50%)"></div>
+        <div class="ring-dot" style="bottom:-5px;left:50%;transform:translateX(-50%)"></div>
+      </div>
+      <div class="ring-inner"></div>
+      <div class="showcase-center">
+        <div class="slide-img active">
+          <div class="slide-icon">🧪</div>
+          <div class="slide-name">Pond Life</div>
+          <div class="slide-tagline">Probiotic Water Conditioner</div>
+        </div>
+        <div class="slide-img">
+          <div class="slide-icon">🦠</div>
+          <div class="slide-name">Steridol-20</div>
+          <div class="slide-tagline">Broad-Spectrum Disinfectant</div>
+        </div>
+        <div class="slide-img">
+          <div class="slide-icon">⚡</div>
+          <div class="slide-name">HP Boost</div>
+          <div class="slide-tagline">Growth Performance Enhancer</div>
+        </div>
+        <div class="slide-img">
+          <div class="slide-icon">🌿</div>
+          <div class="slide-name">BioGrow</div>
+          <div class="slide-tagline">Natural Feed Supplement</div>
+        </div>
+      </div>
+    </div>
+    <div class="badge badge-1">
+      <b>ISO 9001:2015</b><br>Certified
+    </div>
+    <div class="badge badge-2">
+      <b>GMP</b> Compliant
+    </div>
+    <div class="badge badge-3">
+      Est. <b>1989</b>
+    </div>
   </div>
 </section>
 
-<!-- ABOUT -->
+<!-- ticker -->
+<div class="ticker-wrap">
+  <div class="ticker-inner" id="ticker">
+    <span>Pond Probiotics</span>
+    <span>Water Quality Solutions</span>
+    <span>Shrimp Health Management</span>
+    <span>Fish Growth Enhancers</span>
+    <span>Eco-Friendly Disinfectants</span>
+    <span>Microbial Biotechnology</span>
+    <span>GMP Certified Production</span>
+    <span>30+ Years of Research</span>
+    <span>Pond Probiotics</span>
+    <span>Water Quality Solutions</span>
+    <span>Shrimp Health Management</span>
+    <span>Fish Growth Enhancers</span>
+    <span>Eco-Friendly Disinfectants</span>
+    <span>Microbial Biotechnology</span>
+    <span>GMP Certified Production</span>
+    <span>30+ Years of Research</span>
+  </div>
+</div>
+
+<!-- ─── ABOUT ──────────────────────────────────────── -->
 <section id="about" class="section">
-  <h2>About Microl Remedies</h2>
-  <p>
-    Established in 1989, Microl Remedies is a pioneer in aquaculture healthcare,
-    delivering innovative probiotic solutions for sustainable farming.
-  </p>
+  <div class="about-left reveal">
+    <div class="section-tag">Our Story</div>
+    <h2>Built on Science,<br>Driven by Nature</h2>
+    <p class="sub">Established in 1989 in Hyderabad, Microl Remedies has grown to become a leading name in aquaculture healthcare. Our proprietary formulations blend cutting-edge microbiology with a deep respect for aquatic ecosystems, delivering measurable results to farmers across India.</p>
+    <a href="#contact" class="btn-ghost" style="display:inline-block;">Partner with Us →</a>
+  </div>
+  <div class="about-right">
+    <div class="about-card reveal reveal-delay-1">
+      <div class="ac-icon">🔬</div>
+      <h4>Science-Backed Formulations</h4>
+      <p>Every product is developed in our in-house R&D lab with rigorous testing, ensuring efficacy and safety across diverse aquaculture environments.</p>
+    </div>
+    <div class="about-card reveal reveal-delay-2">
+      <div class="ac-icon">🌊</div>
+      <h4>Pond Ecosystem Focus</h4>
+      <p>We take a whole-ecosystem approach — balancing microbial populations and water chemistry for peak performance.</p>
+    </div>
+    <div class="about-card reveal reveal-delay-3">
+      <div class="ac-icon">🤝</div>
+      <h4>Farmer-First Philosophy</h4>
+      <p>Dedicated field support teams work alongside farmers to optimise treatment protocols and deliver measurable ROI.</p>
+    </div>
+  </div>
 </section>
 
-<!-- PRODUCTS -->
+<div class="divider"></div>
+
+<!-- ─── PRODUCTS ─────────────────────────────────────── -->
 <section id="products" class="section">
-  <h2>Our Products</h2>
-
-  <div class="grid">
-    <div class="card">
+  <div class="reveal">
+    <div class="section-tag">Product Range</div>
+    <h2>Solutions for Every<br>Stage of Farming</h2>
+    <p class="sub">From pond preparation to harvest, our comprehensive range covers every critical intervention point in your aquaculture cycle.</p>
+  </div>
+  <div class="product-grid">
+    <div class="product-card reveal reveal-delay-1">
+      <div class="pc-tag">Water Management</div>
+      <div class="pc-icon">💧</div>
       <h3>Pond Life</h3>
-      <p>Improves water quality</p>
+      <p>A multi-strain probiotic blend that stabilises pond ecology, reduces ammonia & nitrite, and supports algal balance.</p>
+      <ul class="pc-features">
+        <li>Ammonia & H₂S reduction</li>
+        <li>Plankton bloom regulation</li>
+        <li>Safe for all species</li>
+      </ul>
     </div>
-
-    <div class="card">
+    <div class="product-card reveal reveal-delay-2">
+      <div class="pc-tag">Biosecurity</div>
+      <div class="pc-icon">🛡️</div>
       <h3>Steridol-20</h3>
-      <p>Disinfectant solution</p>
+      <p>A broad-spectrum virucidal and bactericidal disinfectant for pond water treatment, equipment, and seed stock sanitation.</p>
+      <ul class="pc-features">
+        <li>Kills vibrio & pathogens</li>
+        <li>Non-toxic residue</li>
+        <li>Fast-acting formula</li>
+      </ul>
     </div>
-
-    <div class="card">
+    <div class="product-card reveal reveal-delay-3">
+      <div class="pc-tag">Growth & Nutrition</div>
+      <div class="pc-icon">⚡</div>
       <h3>HP Boost</h3>
-      <p>Growth enhancer</p>
+      <p>An enzyme-rich growth promoter that maximises feed conversion ratio, accelerates weight gain, and improves harvest quality.</p>
+      <ul class="pc-features">
+        <li>Improved FCR</li>
+        <li>Faster weight gain</li>
+        <li>Stress resistance</li>
+      </ul>
+    </div>
+    <div class="product-card reveal reveal-delay-4">
+      <div class="pc-tag">Feed Supplement</div>
+      <div class="pc-icon">🌿</div>
+      <h3>BioGrow</h3>
+      <p>A natural herbal and mineral supplement blended to enhance immunity, gut health, and reproductive performance.</p>
+      <ul class="pc-features">
+        <li>Gut microbiome support</li>
+        <li>Immune boosting</li>
+        <li>Mineral fortification</li>
+      </ul>
+    </div>
+    <div class="product-card reveal">
+      <div class="pc-tag">Mineral Management</div>
+      <div class="pc-icon">⚗️</div>
+      <h3>AquaMin</h3>
+      <p>Precision mineral correction supplement designed to maintain ionic balance and support moulting success in shrimp culture.</p>
+      <ul class="pc-features">
+        <li>Calcium & Magnesium balance</li>
+        <li>Moulting support</li>
+        <li>Reduces mortality</li>
+      </ul>
+    </div>
+    <div class="product-card reveal reveal-delay-1">
+      <div class="pc-tag">Oxygen Management</div>
+      <div class="pc-icon">🌬️</div>
+      <h3>OxyMax</h3>
+      <p>An emergency dissolved oxygen booster for crisis pond management, ensuring fish and shrimp survival during oxygen crashes.</p>
+      <ul class="pc-features">
+        <li>Instant DO boost</li>
+        <li>Safe emergency use</li>
+        <li>Pond-safe formula</li>
+      </ul>
     </div>
   </div>
 </section>
 
-<!-- WHY -->
-<section class="section">
-  <h2>Why Choose Us</h2>
+<!-- ─── WHY US ─────────────────────────────────────── -->
+<div class="cert-bar">
+  <div class="cert-item"><div class="cert-badge">🏅</div><span>ISO 9001:2015</span></div>
+  <div class="cert-item"><div class="cert-badge">🔬</div><span>GMP Certified</span></div>
+  <div class="cert-item"><div class="cert-badge">🌿</div><span>Eco Approved</span></div>
+  <div class="cert-item"><div class="cert-badge">🛡️</div><span>FSSAI Compliant</span></div>
+  <div class="cert-item"><div class="cert-badge">🏭</div><span>In-House R&D</span></div>
+</div>
 
-  <div class="grid">
-    <div class="card">Quality Products</div>
-    <div class="card">Reliable Services</div>
-    <div class="card">24/7 Support</div>
+<section id="why" class="section">
+  <div class="reveal">
+    <div class="section-tag">Why Choose Us</div>
+    <h2>A Partner You Can<br>Count On</h2>
+    <p class="sub">We don't just sell products — we build long-term partnerships with farmers, distributors, and the aquaculture ecosystem.</p>
+  </div>
+  <div class="why-grid">
+    <div class="why-card reveal reveal-delay-1">
+      <div class="why-icon">🏆</div>
+      <h4>Proven Quality</h4>
+      <p>Every batch is tested to international standards, ensuring consistent potency and efficacy across all products.</p>
+    </div>
+    <div class="why-card reveal reveal-delay-2">
+      <div class="why-icon">🔬</div>
+      <h4>In-House R&D</div>
+      <p>Continuous innovation backed by our own research lab and a team of experienced microbiologists and aquaculture scientists.</p>
+    </div>
+    <div class="why-card reveal reveal-delay-3">
+      <div class="why-icon">📦</div>
+      <h4>Pan-India Network</div>
+      <p>Robust distribution and dealer network ensuring on-time delivery and availability across major aquaculture states.</p>
+    </div>
+    <div class="why-card reveal reveal-delay-4">
+      <div class="why-icon">📞</div>
+      <h4>Expert Field Support</div>
+      <p>Our technical team visits farms, diagnoses issues, and provides customised product recommendations at no extra cost.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon">🌿</div>
+      <h4>Eco-Friendly Approach</div>
+      <p>All formulations are designed to be biodegradable and safe for aquatic environments, supporting sustainable farming.</p>
+    </div>
+    <div class="why-card reveal reveal-delay-1">
+      <div class="why-icon">📈</div>
+      <h4>Measurable ROI</div>
+      <p>Farmers using our full stack consistently report 15–25% improvement in survival rate and FCR over a single crop cycle.</p>
+    </div>
   </div>
 </section>
 
-<!-- CONTACT -->
+<!-- ─── CONTACT ─────────────────────────────────────── -->
 <section id="contact" class="section">
-  <h2>Contact</h2>
-  <p>Email: info@microlremedies.com</p>
-  <p>Phone: 040-23720502</p>
+  <div class="reveal">
+    <div class="section-tag">Get in Touch</div>
+    <h2>Let's Grow Together</h2>
+    <p class="sub">Whether you're a farmer, distributor, or researcher — we'd love to hear from you.</p>
+  </div>
+  <div class="contact-wrap">
+    <div class="contact-info reveal">
+      <h3>Microl Remedies<br>Pvt. Ltd.</h3>
+      <div class="contact-detail">
+        <div class="cd-icon">📍</div>
+        <div class="cd-text">
+          <span>Address</span>
+          <p>Hyderabad, Telangana, India</p>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="cd-icon">📞</div>
+        <div class="cd-text">
+          <span>Phone</span>
+          <a href="tel:04023720502">040-23720502</a>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="cd-icon">📱</div>
+        <div class="cd-text">
+          <span>WhatsApp</span>
+          <a href="https://wa.me/919121333357">+91 91213 33357</a>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="cd-icon">✉️</div>
+        <div class="cd-text">
+          <span>Email</span>
+          <a href="mailto:info@microlremedies.com">info@microlremedies.com</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form reveal reveal-delay-2">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" placeholder="+91 XXXXX XXXXX">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" placeholder="you@email.com">
+      </div>
+      <div class="form-group">
+        <label>I am a</label>
+        <select>
+          <option value="">— Select —</option>
+          <option>Farmer / Fish Farmer</option>
+          <option>Distributor / Dealer</option>
+          <option>Aquaculture Consultant</option>
+          <option>Researcher / Student</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Tell us about your needs, farm size, or product enquiry..."></textarea>
+      </div>
+      <button class="btn-submit">Send Enquiry →</button>
+    </div>
+  </div>
 </section>
 
+<!-- ─── FOOTER ─────────────────────────────────────── -->
 <footer>
-  <p>© 2026 Microl Remedies</p>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="logo">Microl<span style="color:var(--teal)">.</span></a>
+      <p>Pioneering aquaculture healthcare solutions since 1989. Science. Nature. Trust.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Products</h5>
+      <a href="#">Pond Life</a>
+      <a href="#">Steridol-20</a>
+      <a href="#">HP Boost</a>
+      <a href="#">BioGrow</a>
+      <a href="#">AquaMin</a>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <a href="#">About Us</a>
+      <a href="#">Research & Development</a>
+      <a href="#">Careers</a>
+      <a href="#">Certifications</a>
+    </div>
+    <div class="footer-col">
+      <h5>Resources</h5>
+      <a href="#">Farming Guides</a>
+      <a href="#">Product Brochures</a>
+      <a href="#">Case Studies</a>
+      <a href="#">FAQ</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Microl Remedies Pvt. Ltd. All rights reserved.</p>
+    <div class="footer-socials">
+      <a class="fsoc" href="#">🐦</a>
+      <a class="fsoc" href="#">💼</a>
+      <a class="fsoc" href="https://wa.me/919121333357">💬</a>
+    </div>
+  </div>
 </footer>
 
-<a class="whatsapp" href="https://wa.me/919121333357">💬</a>
+<!-- WhatsApp -->
+<a class="wa-btn" href="https://wa.me/919121333357" target="_blank">
+  <div class="wa-pulse"></div>
+  💬
+</a>
 
+<!-- ─── SCRIPTS ─────────────────────────────────────── -->
 <script>
-// slider
-let slides = document.querySelectorAll(".slide");
-let index = 0;
+/* ── Bubble / particle canvas ── */
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, bubbles = [];
 
-setInterval(()=>{
-  slides[index].classList.remove("active");
-  index = (index + 1) % slides.length;
-  slides[index].classList.add("active");
-},3000);
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+class Bubble {
+  constructor() { this.reset(true); }
+  reset(init) {
+    this.x = Math.random() * W;
+    this.y = init ? Math.random() * H : H + 30;
+    this.r = Math.random() * 3 + 1;
+    this.speed = Math.random() * 0.4 + 0.15;
+    this.drift = (Math.random() - 0.5) * 0.3;
+    this.alpha = Math.random() * 0.25 + 0.05;
+    this.color = Math.random() > 0.5 ? '0,201,167' : '0,168,232';
+  }
+  update() {
+    this.y -= this.speed;
+    this.x += this.drift;
+    if (this.y < -20) this.reset(false);
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${this.color},${this.alpha})`;
+    ctx.fill();
+    // glow ring
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r + 1.5, 0, Math.PI * 2);
+    ctx.strokeStyle = `rgba(${this.color},${this.alpha * 0.5})`;
+    ctx.lineWidth = 0.5;
+    ctx.stroke();
+  }
+}
+
+for (let i = 0; i < 120; i++) bubbles.push(new Bubble());
+
+/* gradient mesh bg */
+function drawBg() {
+  const g1 = ctx.createRadialGradient(W * 0.2, H * 0.3, 0, W * 0.2, H * 0.3, W * 0.55);
+  g1.addColorStop(0, 'rgba(0,80,60,0.18)');
+  g1.addColorStop(1, 'transparent');
+  ctx.fillStyle = g1;
+  ctx.fillRect(0, 0, W, H);
+
+  const g2 = ctx.createRadialGradient(W * 0.8, H * 0.7, 0, W * 0.8, H * 0.7, W * 0.5);
+  g2.addColorStop(0, 'rgba(0,50,100,0.18)');
+  g2.addColorStop(1, 'transparent');
+  ctx.fillStyle = g2;
+  ctx.fillRect(0, 0, W, H);
+}
+
+function loop() {
+  ctx.clearRect(0, 0, W, H);
+  drawBg();
+  bubbles.forEach(b => { b.update(); b.draw(); });
+  requestAnimationFrame(loop);
+}
+loop();
+
+/* ── Navbar scroll ── */
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+/* ── Mobile nav toggle ── */
+function toggleNav() {
+  document.getElementById('nav').classList.toggle('open');
+}
+document.querySelectorAll('#nav a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('nav').classList.remove('open'));
+});
+
+/* ── Product slider ── */
+const slides = document.querySelectorAll('.slide-img');
+let si = 0;
+setInterval(() => {
+  slides[si].classList.remove('active');
+  si = (si + 1) % slides.length;
+  slides[si].classList.add('active');
+}, 2800);
+
+/* ── Scroll reveal ── */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ── Form submit ── */
+document.querySelector('.btn-submit').addEventListener('click', function() {
+  const btn = this;
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = '✓ Enquiry Sent!';
+    btn.style.background = 'linear-gradient(135deg,#25D366,#1ab455)';
+    setTimeout(() => {
+      btn.textContent = 'Send Enquiry →';
+      btn.style.background = '';
+      btn.disabled = false;
+    }, 3000);
+  }, 1400);
+});
 </script>
-
 </body>
 </html>
